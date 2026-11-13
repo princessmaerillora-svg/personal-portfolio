@@ -50,11 +50,6 @@ export default function Home() {
       <main className="flex-1">
         {/* HOME */}
         <section id="home" className="relative isolate overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_45%_55%_at_50%_45%,var(--color-indigo-100)_0%,var(--color-indigo-50)_45%,transparent_75%),radial-gradient(ellipse_30%_35%_at_8%_70%,var(--color-indigo-50),transparent_70%)]"
-          />
-
           <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 pb-14 pt-10 sm:px-6 lg:block lg:h-[clamp(640px,calc(100svh-4rem),760px)] lg:p-0">
             {/* Hey, there */}
             <p className="relative z-20 flex gap-3 font-serif text-[clamp(3.25rem,14vw,4.5rem)] italic leading-none text-indigo-950 lg:absolute lg:inset-x-0 lg:top-[20%] lg:justify-center lg:gap-[clamp(10rem,18vw,14rem)] lg:text-[clamp(5rem,8vw,7.5rem)]">
