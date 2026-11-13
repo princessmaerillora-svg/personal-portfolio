@@ -1,5 +1,9 @@
 import Image from "next/image";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import type { CSSProperties } from "react";
 import Navbar from "@/components/Navbar";
+import MotionObserver from "@/components/MotionObserver";
 import { arrowClass, btn } from "@/components/button";
 import {
   profile,
@@ -8,12 +12,20 @@ import {
   projects,
   achievements,
   contact,
+  type Achievement,
 } from "@/data/profile";
 
-function Arrow() {
+function reveal(step = 0) {
+  return {
+    "data-reveal": "",
+    style: { "--reveal-delay": `${step * 90}ms` } as CSSProperties,
+  };
+}
+
+function Arrow({ down = false }: { down?: boolean }) {
   return (
     <svg
-      className={arrowClass}
+      className={down ? `${arrowClass} arrow-down` : arrowClass}
       viewBox="0 0 16 16"
       fill="none"
       stroke="currentColor"
@@ -22,29 +34,16 @@ function Arrow() {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d="M5 11L11 5M6 5h5v5" />
+      <path d={down ? "M8 3v10M4 9l4 4 4-4" : "M5 11L11 5M6 5h5v5"} />
     </svg>
   );
 }
 
-function SectionHeading({
-  index,
-  label,
-  title,
-}: {
-  index: string;
-  label: string;
-  title: string;
-}) {
+function SectionHeading({ label, title }: { label: string; title: string }) {
   return (
-    <div className="mb-7 flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-4">
-      <div>
-        <p className="eyebrow mb-2">{label}</p>
-        <h2 className="section-title">{title}</h2>
-      </div>
-      <span className="pb-1 font-mono text-xs tracking-widest text-white/35">
-        ({index})
-      </span>
+    <div {...reveal()} className="mb-7 border-b border-white/10 pb-4">
+      <p className="eyebrow mb-2">{label}</p>
+      <h2 className="section-title">{title}</h2>
     </div>
   );
 }
@@ -64,6 +63,60 @@ function SkillDots({ level }: { level: number }) {
   );
 }
 
+const certificates = achievements.filter((a) => a.type === "Certificate");
+const awards = achievements.filter((a) => a.type !== "Certificate");
+
+function publicFileExists(src?: string) {
+  return !!src && existsSync(join(process.cwd(), "public", src));
+}
+
+function CertificatePreview({ cert }: { cert: Achievement }) {
+  if (cert.image && publicFileExists(cert.image)) {
+    return (
+      <a
+        href={cert.image}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Open full-size certificate: ${cert.title}`}
+        className="relative block aspect-[3/2] overflow-hidden bg-[#0b0d12] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#e2c866]"
+      >
+        <Image
+          src={cert.image}
+          alt={`${cert.title} certificate`}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-contain p-3 transition-[scale] duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
+        />
+      </a>
+    );
+  }
+
+  return (
+    <div className="cert-placeholder relative grid aspect-[3/2] place-items-center overflow-hidden">
+      <div className="flex flex-col items-center gap-3 text-center">
+        <svg
+          className="h-9 w-9 text-[#c9a83e]/70"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="4" width="18" height="13" rx="1.5" />
+          <path d="M7 8.5h10M7 11.5h6" />
+          <circle cx="16.5" cy="17.5" r="2.5" />
+          <path d="M15 19.5 14.5 22l2-1 2 1-.5-2.5" />
+        </svg>
+        <span className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-white/40">
+          Certificate preview
+        </span>
+      </div>
+    </div>
+  );
+}
+
 const quickFacts = [
   {
     question: "What kind of opportunities are you looking for?",
@@ -73,12 +126,12 @@ const quickFacts = [
   {
     question: "When can you start?",
     answer:
-      "I can begin as soon as the schedule allows, and I’m open to discussing start dates based on the role, school calendar, and team needs.",
+      "I can begin as soon as the schedule allows, and I'm open to discussing start dates based on the role, school calendar, and team needs.",
   },
   {
     question: "Are you open to remote or onsite work?",
     answer:
-      "Yes. I’m open to remote, onsite, or hybrid arrangements depending on the opportunity and what works best for the organization.",
+      "Yes. I'm open to remote, onsite, or hybrid arrangements depending on the opportunity and what works best for the organization.",
   },
   {
     question: "What can you contribute to a team?",
@@ -88,111 +141,89 @@ const quickFacts = [
   {
     question: "How does school affect your availability?",
     answer:
-      "I’m currently a student, so I’m available for roles and projects that fit around my academic schedule while still allowing me to contribute consistently.",
+      "I'm currently a student, so I'm available for roles and projects that fit around my academic schedule while still allowing me to contribute consistently.",
   },
   {
     question: "How should an organization get in touch?",
     answer:
-      "You can reach me by email to discuss internships, collaborations, or project opportunities. I’m happy to share more details about my work and availability.",
+      "You can reach me by email to discuss internships, collaborations, or project opportunities. I'm happy to share more details about my work and availability.",
   },
 ];
 
 export default function Home() {
   return (
     <>
-      <Navbar name={profile.shortName} />
+      <Navbar />
+      <MotionObserver />
 
       <main className="portfolio-bg flex-1 overflow-hidden">
-        <section id="home" className="px-4 pb-10 pt-8 sm:px-6 sm:pt-12">
-          <div className="hero-panel panel-grid relative mx-auto grid max-w-6xl overflow-hidden rounded-[1.75rem] px-6 py-8 sm:px-10 sm:py-12 lg:min-h-[480px] lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-14">
-            <div className="relative z-10 flex flex-col items-start">
-              <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-black/30 px-3 py-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inset-0 animate-ping rounded-full bg-[#c9a83e]/60 motion-reduce:hidden" />
-                  <span className="relative h-2 w-2 rounded-full bg-[#c9a83e]" />
-                </span>
-                <span className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-white/70">
-                  {profile.availability}
-                </span>
-              </div>
+        <section id="home" className="px-4 py-4 sm:px-6 sm:py-6 lg:py-7">
+          <div className="hero-panel panel-stars home-hero relative mx-auto flex max-w-6xl flex-col overflow-hidden rounded-[1.75rem] px-5 pb-6 pt-5 sm:px-8 md:block md:px-0 md:pb-0 md:pt-0">
+            <h1 className="enter relative z-0 mt-10 flex flex-wrap items-center justify-center gap-x-2 font-display text-[clamp(2.1rem,9vw,8.5rem)] uppercase leading-[0.85] tracking-[0.025em] md:absolute md:inset-x-4 md:top-[17%] md:mt-0 md:gap-x-5">
+              <span className="hero-hover hero-name-outline">{profile.shortName}</span>
+              <span className="hero-hover text-[#eee6c9]">{profile.lastName}</span>
+              <span className="sr-only"> — {profile.name}</span>
+            </h1>
 
-              <p className="eyebrow mb-3">Portfolio · Bulacan, Philippines</p>
-              <h1 className="font-serif text-[clamp(4.5rem,12vw,8.5rem)] leading-[0.78] tracking-tight text-[#eee6c9]">
-                {profile.shortName}
-                <span className="gold-text">.</span>
-              </h1>
-              <p className="mt-5 max-w-xl font-display text-[clamp(1.05rem,2.2vw,1.55rem)] uppercase leading-tight tracking-wide text-[#c9a83e]">
-                {profile.headline.join(" ")}
-              </p>
-              <p className="mt-6 max-w-lg text-sm leading-7 text-white/60 sm:text-base">
-                {profile.intro}
-              </p>
-
-              <div className="mt-7 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                <a href="#projects" className={btn("solid")}>
-                  Explore my work <Arrow />
-                </a>
-                {profile.resumeUrl ? (
-                  <a
-                    href={profile.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={btn("outline")}
-                  >
-                    Résumé <Arrow />
-                  </a>
-                ) : (
-                  <a href="#contact" className={btn("outline")}>
-                    Get in touch <Arrow />
-                  </a>
-                )}
-              </div>
-
-              <div className="mt-8 flex items-center gap-3 text-xs text-white/40">
-                <span className="h-px w-8 bg-[#c9a83e]/70" />
-                <span className="font-mono uppercase tracking-wider">
-                  {profile.name}
-                </span>
+            <div className="relative z-10 mx-auto -mt-1 h-[min(92vw,390px)] w-full max-w-[440px] pointer-events-none shrink-0 portrait-frame enter-portrait md:absolute md:bottom-0 md:left-1/2 md:mt-0 md:h-[82%] md:w-[min(58%,640px)] md:max-w-none md:-translate-x-1/2">
+              <div className="portrait-float absolute inset-0">
+                <Image
+                  src={profile.photo}
+                  alt=""
+                  aria-hidden="true"
+                  fill
+                  sizes="(max-width: 768px) 92vw, 58vw"
+                  className="hero-portrait-aura object-contain object-bottom"
+                />
+                <Image
+                  src={profile.photo}
+                  alt={`Portrait of ${profile.name}`}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 92vw, 58vw"
+                  className="hero-portrait object-contain object-bottom"
+                />
               </div>
             </div>
 
-            <div className="relative mt-10 min-h-[300px] overflow-hidden rounded-2xl border border-white/10 portrait-frame sm:min-h-[390px] lg:mt-0 lg:ml-8">
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-transparent to-transparent" />
-              <Image
-                src={profile.photo}
-                alt={`Portrait of ${profile.name}`}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 42vw"
-                className="object-contain object-bottom"
-              />
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-[#08090c] via-[#08090c]/75 to-transparent px-5 pb-5 pt-20">
-                <div>
-                  <p className="eyebrow">Currently studying</p>
-                  <p className="mt-1 text-sm font-medium text-white/90">
-                    Information Technology
-                  </p>
-                </div>
-                <span className="rounded-full border border-[#c9a83e]/30 bg-black/40 px-3 py-1.5 font-mono text-[0.65rem] text-[#e2c866]">
-                  2023 — 2027
-                </span>
+            <div style={{ "--enter-delay": "350ms" } as CSSProperties} className="enter relative z-20 mt-auto grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end md:absolute md:inset-x-9 md:bottom-9 md:mt-0 md:flex md:items-end md:justify-between lg:inset-x-12 lg:bottom-12">
+              <div className="max-w-sm">
+                <p className="hero-hover font-display text-2xl uppercase leading-tight tracking-wide text-[#c9a83e] sm:text-3xl">
+                  {profile.headline.join(" ")}
+                </p>
+                <p className="hero-hover mt-2 max-w-xs text-sm leading-6 text-white/60">
+                  {profile.intro}
+                </p>
+                <a
+                  href="#contact"
+                  className={btn("solid", "mt-4")}
+                >
+                  Let&apos;s collaborate <Arrow down />
+                </a>
               </div>
-              <span className="absolute right-4 top-4 rounded-full border border-white/10 bg-black/35 px-3 py-1.5 font-mono text-[0.6rem] uppercase tracking-widest text-white/50">
-                Profile 001
-              </span>
+
+              <p className="hero-hover inline-flex min-h-10 items-center gap-2.5 justify-self-start rounded-full border border-white/10 bg-black/30 px-3 text-xs font-medium text-white/75 backdrop-blur-sm sm:justify-self-end sm:px-4">
+                <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-[#34d399]/60 motion-reduce:hidden" />
+                  <span className="relative h-2 w-2 rounded-full bg-[#34d399]" />
+                </span>
+                <span className="font-mono text-[0.62rem] uppercase tracking-[0.14em] sm:text-xs">
+                  {profile.availability}
+                </span>
+              </p>
             </div>
           </div>
         </section>
 
         <section id="quick-facts" className="px-4 py-10 sm:px-6 sm:py-14">
           <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-12">
-            <div className="flex flex-col justify-center">
+            <div {...reveal()} className="flex flex-col justify-center">
               <p className="eyebrow mb-3">A few things to know</p>
               <h2 className="section-title max-w-sm text-[clamp(3rem,7vw,5.25rem)]">
                 Before you ask<span className="gold-text">...</span>
               </h2>
               <p className="mt-4 max-w-sm text-sm leading-6 text-white/50">
-                A little more about the kind of work I’m looking for and how I
+                A little more about the kind of work I&apos;m looking for and how I
                 like to collaborate.
               </p>
             </div>
@@ -200,6 +231,7 @@ export default function Home() {
               {quickFacts.map((fact, i) => (
                 <li
                   key={fact.question}
+                  {...reveal(i)}
                   className="surface-card rounded-2xl p-5 transition-colors hover:border-[#c9a83e]/30"
                 >
                   <span className="font-mono text-[0.65rem] tracking-widest text-[#c9a83e]">
@@ -219,9 +251,9 @@ export default function Home() {
 
         <section id="about" className="px-4 py-10 sm:px-6 sm:py-14">
           <div className="mx-auto max-w-6xl">
-            <SectionHeading index="01" label="The person behind the work" title="About me" />
+            <SectionHeading label="The person behind the work" title="About me" />
             <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
-              <div className="surface-card rounded-2xl p-6 sm:p-8">
+              <div {...reveal(0)} className="surface-card rounded-2xl p-6 sm:p-8">
                 <p className="font-serif text-3xl leading-tight text-[#eee6c9] sm:text-4xl">
                   {profile.tagline}
                 </p>
@@ -232,36 +264,26 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="surface-card rounded-2xl p-6 sm:p-8">
-                <div className="mb-5 flex items-center justify-between">
-                  <h3 className="eyebrow">Education</h3>
-                  <span className="font-mono text-[0.62rem] text-white/35">
-                    03 ENTRIES
-                  </span>
-                </div>
+              <div {...reveal(1)} className="surface-card rounded-2xl p-6 sm:p-8">
+                <h3 className="eyebrow mb-5">Education</h3>
                 <ol className="divide-y divide-white/[0.08]">
-                  {about.education.map((education, i) => (
+                  {about.education.map((education) => (
                     <li
                       key={education.level}
-                      className="grid grid-cols-[2.25rem_1fr] gap-3 py-4 first:pt-0 last:pb-0"
+                      className="py-4 first:pt-0 last:pb-0"
                     >
-                      <span className="font-mono text-xs text-[#c9a83e]">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <div>
-                        <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                          <p className="font-medium text-white/90">
-                            {education.school}
-                          </p>
-                          <span className="font-mono text-[0.65rem] text-white/40">
-                            {education.years}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-xs text-white/45">
-                          {education.level}
-                          {education.program ? ` · ${education.program}` : ""}
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                        <p className="font-medium text-white/90">
+                          {education.school}
                         </p>
+                        <span className="font-mono text-[0.65rem] text-white/40">
+                          {education.years}
+                        </span>
                       </div>
+                      <p className="mt-1 text-xs text-white/45">
+                        {education.level}
+                        {education.program ? ` · ${education.program}` : ""}
+                      </p>
                     </li>
                   ))}
                 </ol>
@@ -272,18 +294,13 @@ export default function Home() {
 
         <section id="skills" className="px-4 py-10 sm:px-6 sm:py-14">
           <div className="mx-auto max-w-6xl">
-            <SectionHeading index="02" label="Tools of the trade" title="Skills" />
+            <SectionHeading label="Tools of the trade" title="Skills" />
             <div className="grid gap-4 md:grid-cols-3">
               {skills.map((group, i) => (
-                <div key={group.group} className="surface-card rounded-2xl p-6">
-                  <div className="mb-5 flex items-center justify-between">
-                    <h3 className="font-serif text-2xl text-[#eee6c9]">
-                      {group.group}
-                    </h3>
-                    <span className="font-mono text-[0.65rem] text-[#c9a83e]">
-                      0{i + 1}
-                    </span>
-                  </div>
+                <div key={group.group} {...reveal(i)} className="surface-card rounded-2xl p-6">
+                  <h3 className="mb-5 font-serif text-2xl text-[#eee6c9]">
+                    {group.group}
+                  </h3>
                   <ul className="divide-y divide-white/[0.08]">
                     {group.items.map((skill) => (
                       <li
@@ -305,21 +322,14 @@ export default function Home() {
 
         <section id="projects" className="px-4 py-10 sm:px-6 sm:py-14">
           <div className="mx-auto max-w-6xl">
-            <SectionHeading index="03" label="Selected work" title="Projects" />
+            <SectionHeading label="Selected work" title="Projects" />
             <ol className="grid gap-4 lg:grid-cols-2">
               {projects.map((project, i) => (
                 <li
                   key={project.title}
-                  className="surface-card group flex flex-col rounded-2xl p-6 transition-colors hover:border-[#c9a83e]/30 sm:p-7"
+                  {...reveal(i)}
+                  className="surface-card flex flex-col rounded-2xl p-6 transition-colors hover:border-[#c9a83e]/30 sm:p-7"
                 >
-                  <div className="mb-7 flex items-center justify-between">
-                    <span className="font-mono text-xs tracking-widest text-[#c9a83e]">
-                      PROJECT / {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-white/30 transition-colors group-hover:text-[#e2c866]">
-                      <Arrow />
-                    </span>
-                  </div>
                   <h3 className="max-w-xl font-serif text-3xl leading-tight text-[#f0eee6] sm:text-4xl">
                     {project.title}
                   </h3>
@@ -369,18 +379,53 @@ export default function Home() {
         <section id="achievements" className="px-4 py-10 sm:px-6 sm:py-14">
           <div className="mx-auto max-w-6xl">
             <SectionHeading
-              index="04"
               label="Milestones along the way"
               title="Achievements"
             />
-            <ul className="surface-card divide-y divide-white/[0.08] rounded-2xl px-5 sm:px-8">
-              {achievements.map((achievement, i) => (
+            <ul className="mb-4 grid gap-4 md:grid-cols-2">
+              {certificates.map((cert, i) => (
+                <li
+                  key={cert.title}
+                  {...reveal(i)}
+                  className="surface-card group flex flex-col overflow-hidden rounded-2xl"
+                >
+                  <CertificatePreview cert={cert} />
+                  <div className="flex flex-1 flex-wrap items-end justify-between gap-3 border-t border-white/[0.08] p-5 sm:p-6">
+                    <div>
+                      <span className="font-mono text-[0.65rem] tracking-widest text-[#c9a83e]">
+                        CERTIFICATE / {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="mt-2 font-serif text-2xl leading-tight text-[#f0eee6]">
+                        {cert.title}
+                      </h3>
+                      <p className="mt-1 text-xs text-white/45">
+                        {cert.issuer} · {cert.date}
+                      </p>
+                    </div>
+                    {cert.verifyUrl && (
+                      <a
+                        href={cert.verifyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={btn("outline", "min-h-9 px-4 text-xs")}
+                      >
+                        Verify <Arrow />
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <ul {...reveal()} className="surface-card divide-y divide-white/[0.08] rounded-2xl px-5 sm:px-8">
+              {awards.map((achievement, i) => (
                 <li
                   key={achievement.title}
+                  {...reveal(i)}
                   className="grid grid-cols-[2.5rem_1fr_auto] items-center gap-3 py-5 sm:grid-cols-[4rem_1fr_auto] sm:gap-5"
                 >
                   <span className="font-mono text-xs text-[#c9a83e]">
-                    {String(i + 1).padStart(2, "0")}
+                    {String(certificates.length + i + 1).padStart(2, "0")}
                   </span>
                   <div>
                     <h3 className="text-sm font-semibold text-white/90 sm:text-base">
@@ -390,13 +435,7 @@ export default function Home() {
                       {achievement.issuer} · {achievement.date}
                     </p>
                   </div>
-                  <span
-                    className={`rounded-full px-3 py-1 font-mono text-[0.58rem] uppercase tracking-wider ${
-                      achievement.type === "Award"
-                        ? "bg-[#c9a83e] text-[#11110c]"
-                        : "border border-white/15 text-white/55"
-                    }`}
-                  >
+                  <span className="rounded-full bg-[#c9a83e] px-3 py-1 font-mono text-[0.58rem] uppercase tracking-wider text-[#11110c]">
                     {achievement.type}
                   </span>
                 </li>
@@ -406,7 +445,7 @@ export default function Home() {
         </section>
 
         <section id="contact" className="px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-14">
-          <div className="hero-panel panel-grid relative mx-auto max-w-6xl overflow-hidden rounded-[1.75rem] px-6 py-9 sm:px-10 sm:py-12 lg:px-14">
+          <div {...reveal()} className="hero-panel panel-stars relative mx-auto max-w-6xl overflow-hidden rounded-[1.75rem] px-6 py-9 sm:px-10 sm:py-12 lg:px-14">
             <div className="relative z-10 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
               <div>
                 <p className="eyebrow mb-4">Have a project in mind?</p>
@@ -416,8 +455,8 @@ export default function Home() {
                   <span className="gold-text">together.</span>
                 </h2>
                 <p className="mt-5 max-w-xl text-sm leading-6 text-white/55">
-                  I&apos;m open to internships, collaborations, and freelance
-                  work. Feel free to reach out.
+                  I&apos;m open to internships, student developer roles, and project
+                  collaborations. Feel free to reach out.
                 </p>
               </div>
               <a

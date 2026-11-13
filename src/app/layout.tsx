@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import Cursor from "@/components/Cursor";
 import { profile } from "@/data/profile";
 import "./globals.css";
 
@@ -37,7 +38,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${serif.variable} ${display.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        {children}
+        <Cursor />
+      </body>
     </html>
   );
 }

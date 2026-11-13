@@ -1,15 +1,14 @@
 export const profile = {
   name: "Princess Mae Paras Rillora",
   shortName: "Princess",
-  initials: "PR",
+  lastName: "Rillora",
   role: "BS Information Technology Student",
   headline: ["Information", "Technology", "Student"],
   availability: "Open to internships",
   tagline: "Building clean, useful things for the web.",
   intro:
     "I'm an aspiring web developer who enjoys turning ideas into simple, responsive websites and applications. I'm always learning new tools and looking for chances to grow.",
-  photo: "/profile.jpg",
-  resumeUrl: "",
+  photo: "/profile-transparent.png",
 };
 
 export const about = {
@@ -20,7 +19,7 @@ export const about = {
   education: [
     {
       level: "College",
-      school: "La Consolacion University",
+      school: "La Consolacion University Philippines",
       program: "Bachelor of Science in Information Technology",
       years: "2023 – 2027",
     },
@@ -46,6 +45,7 @@ export const skills = [
       { name: "HTML", level: 4 },
       { name: "CSS", level: 3 },
       { name: "JavaScript", level: 2 },
+      { name: "TypeScript", level: 2 },
       { name: "C#", level: 3 },
       { name: "Kotlin", level: 3 },
       { name: "PHP", level: 2 },
@@ -53,10 +53,12 @@ export const skills = [
     ],
   },
   {
-    group: "Frameworks & Libraries",
+    group: "Frameworks & Services",
     items: [
       { name: "Next.js", level: 3 },
-      { name: "Tailwind CSS", level: 2 },
+      { name: "Tailwind CSS", level: 4 },
+      { name: "MySQL", level: 3 },
+      { name: "reCAPTCHA", level: 4 },
     ],
   },
   {
@@ -64,7 +66,7 @@ export const skills = [
     items: [
       { name: "Git & GitHub", level: 3 },
       { name: "VS Code", level: 3 },
-      { name: "XAMPP / MySQL", level: 3 },
+      { name: "XAMPP", level: 3 },
       { name: "Figma", level: 4 },
     ],
   },
@@ -82,8 +84,8 @@ export const projects = [
   {
     title: "UBMS Maintenance and Reporting System",
     description:
-      "A web system for La Consolacion University that makes maintenance requests and issue reporting faster and easier for maintenance personnel, students and teachers.",
-    tags: ["Next.js", "GitHub", "Vercel", "PHP"],
+      "A web system for La Consolacion University Philippines that makes maintenance requests and issue reporting faster and easier for maintenance personnel, students and teachers.",
+    tags: ["TypeScript", "JavaScript", "MySQL", "Tailwind CSS"],
     github: "https://github.com/princessmaerillora-svg/ubms-lcup",
     demo: "https://ubms-lcup.vercel.app",
   },
@@ -97,18 +99,31 @@ export const projects = [
   },
 ];
 
-export const achievements = [
+export type Achievement = {
+  type: "Certificate" | "Award";
+  title: string;
+  issuer: string;
+  date: string;
+  image?: string;
+  verifyUrl?: string;
+};
+
+export const achievements: Achievement[] = [
   {
     type: "Certificate",
-    title: "Microsoft Office Specialist",
+    title: "Microsoft Office Specialist: Access 2019 Expert",
     issuer: "Microsoft",
-    date: "2025",
+    date: "December 21, 2025",
+    image: "/certificates/mos-access-2019-expert.png",
   },
   {
     type: "Certificate",
     title: "Foundational C# with Microsoft",
-    issuer: "Microsoft",
-    date: "2025",
+    issuer: "freeCodeCamp × Microsoft",
+    date: "October 9, 2025",
+    image: "/certificates/foundational-csharp.png",
+    verifyUrl:
+      "https://freecodecamp.org/certification/fcc-9d1de4f2-de5d-4294-ab5d-625adb1fef3f/foundational-c-sharp-with-microsoft",
   },
   {
     type: "Award",
@@ -116,7 +131,7 @@ export const achievements = [
     issuer: "La Consolacion University Philippines",
     date: "2024 and 2026",
   },
-] as const;
+];
 
 export const contact = {
   email: "princessmaerillora@gmail.com",
