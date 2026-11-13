@@ -8,13 +8,13 @@ const base =
 
 const variants: Record<Variant, string> = {
   solid:
-    "bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 focus-visible:outline-indigo-600",
+    "border border-[#c9a83e] bg-[#c9a83e] text-[#11110c] hover:border-[#e2c866] hover:bg-[#e2c866] active:bg-[#b49331] focus-visible:outline-[#e2c866]",
   outline:
-    "border border-indigo-950/20 text-indigo-950 hover:border-indigo-950 hover:bg-indigo-950 hover:text-white focus-visible:outline-indigo-600",
+    "border border-white/15 bg-white/[0.03] text-[#f0eee6] hover:border-[#c9a83e]/60 hover:bg-[#c9a83e]/10 hover:text-[#e2c866] focus-visible:outline-[#e2c866]",
   light:
-    "bg-white text-indigo-950 hover:bg-indigo-100 active:bg-indigo-200 focus-visible:outline-white",
+    "bg-[#f0eee6] text-[#11110c] hover:bg-[#e2c866] active:bg-[#c9a83e] focus-visible:outline-[#f0eee6]",
   "light-outline":
-    "border border-white/30 text-white hover:border-white hover:bg-white hover:text-indigo-950 focus-visible:outline-white",
+    "border border-white/20 text-[#f0eee6] hover:border-[#c9a83e]/60 hover:bg-[#c9a83e]/10 hover:text-[#e2c866] focus-visible:outline-[#e2c866]",
 };
 
 export function btn(variant: Variant, extra = "") {

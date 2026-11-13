@@ -23,14 +23,17 @@ export default function Navbar({ name }: { name: string }) {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-indigo-950/10 bg-white/85 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#08090c]/90 backdrop-blur-xl">
+      <nav className="mx-auto flex h-[4.25rem] max-w-6xl items-center justify-between px-4 sm:px-6">
         <a
           href="#home"
-          className="font-serif text-[1.75rem] italic leading-none text-indigo-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-600"
+          className="flex items-center gap-3 font-serif text-xl leading-none tracking-wide text-[#eee6c9] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#e2c866] sm:text-2xl"
         >
-          {name}
-          <span className="text-indigo-600">.</span>
+          <span className="grid h-8 w-8 place-items-center rounded-full border border-[#c9a83e]/50 bg-[#c9a83e]/10 font-sans text-[0.65rem] font-semibold text-[#e2c866]">
+            PR
+          </span>
+          <span className="uppercase">{name}</span>
+          <span className="hidden h-6 w-px bg-white/15 sm:block" />
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -38,7 +41,7 @@ export default function Navbar({ name }: { name: string }) {
             <li key={l.href}>
               <a
                 href={l.href}
-                className="relative rounded-full px-3 py-2 text-sm font-medium text-indigo-950/80 transition-colors hover:text-indigo-950 focus-visible:outline-2 focus-visible:outline-indigo-600 after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-indigo-600 after:transition-transform hover:after:scale-x-100"
+                className="rounded-full px-3 py-2 text-xs font-medium text-white/55 transition-colors hover:bg-white/[0.06] hover:text-[#e2c866] focus-visible:outline-2 focus-visible:outline-[#e2c866]"
               >
                 {l.label}
               </a>
@@ -48,12 +51,12 @@ export default function Navbar({ name }: { name: string }) {
 
         <div className="flex items-center gap-2">
           <a href="#contact" className={btn("solid", "hidden sm:inline-flex")}>
-            Contact
+            Let&apos;s talk
           </a>
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
-            className="grid h-11 w-11 place-items-center rounded-full text-indigo-950 transition-colors hover:bg-indigo-50 active:bg-indigo-100 focus-visible:outline-2 focus-visible:outline-indigo-600 md:hidden"
+            className="grid h-11 w-11 place-items-center rounded-full text-[#f0eee6] transition-colors hover:bg-white/[0.06] hover:text-[#e2c866] focus-visible:outline-2 focus-visible:outline-[#e2c866] md:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -66,23 +69,25 @@ export default function Navbar({ name }: { name: string }) {
       </nav>
 
       {open && (
-        <div id="mobile-menu" className="border-t border-indigo-950/10 bg-white px-4 pb-6 md:hidden">
+        <div id="mobile-menu" className="border-t border-white/10 bg-[#0b0d12] px-4 pb-6 md:hidden">
           <ul>
-            {links.map((l) => (
-              <li key={l.href} className="border-b border-indigo-950/10">
+            {links.map((l, i) => (
+              <li key={l.href} className="border-b border-white/10">
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-14 items-center justify-between font-display text-2xl uppercase tracking-wide text-indigo-950 active:text-indigo-600"
+                  className="flex min-h-14 items-center justify-between font-display text-2xl uppercase tracking-wide text-[#f0eee6] active:text-[#e2c866]"
                 >
                   {l.label}
-                  <span aria-hidden="true" className="font-sans text-base text-indigo-600">→</span>
+                  <span aria-hidden="true" className="font-mono text-xs text-[#c9a83e]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                 </a>
               </li>
             ))}
           </ul>
           <a href="#contact" onClick={() => setOpen(false)} className={btn("solid", "mt-6 w-full")}>
-            Contact me
+            Let&apos;s talk
           </a>
         </div>
       )}
