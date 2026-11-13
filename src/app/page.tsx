@@ -92,7 +92,7 @@ export default function Home() {
                 width={768}
                 height={768}
                 priority
-                className="h-auto w-full opacity-50"
+                className="h-auto w-full [mask-composite:intersect] [mask-image:linear-gradient(to_bottom,black_55%,transparent_98%),linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
               />
             </div>
 
