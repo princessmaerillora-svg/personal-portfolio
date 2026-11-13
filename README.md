@@ -2,7 +2,7 @@
 
 A responsive personal portfolio website showcasing my background, education, skills, projects, achievements and contact information.
 
-**Live site:** https://YOUR-PROJECT.vercel.app  <!-- TODO: replace after deploying -->
+**Live site:** https://mypersonal-portfolio-topaz.vercel.app
 
 ## Sections
 
