@@ -65,7 +65,7 @@ export default function Home() {
                 width={768}
                 height={768}
                 priority
-                className="h-auto w-full"
+                className="h-auto w-full opacity-50"
               />
             </div>
 
