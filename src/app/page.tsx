@@ -57,20 +57,20 @@ export default function Home() {
 
           <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 pb-14 pt-10 sm:px-6 lg:block lg:h-[clamp(640px,calc(100svh-4rem),760px)] lg:p-0">
             {/* Hey, there */}
-            <p className="relative z-20 flex gap-3 font-serif text-[clamp(3.5rem,15vw,5rem)] italic leading-none text-indigo-950 lg:absolute lg:inset-x-0 lg:top-[20%] lg:justify-center lg:gap-[clamp(13rem,20vw,17rem)] lg:text-[clamp(6rem,10vw,9.5rem)]">
+            <p className="relative z-20 flex gap-3 font-serif text-[clamp(3.25rem,14vw,4.5rem)] italic leading-none text-indigo-950 lg:absolute lg:inset-x-0 lg:top-[20%] lg:justify-center lg:gap-[clamp(10rem,18vw,14rem)] lg:text-[clamp(5rem,8vw,7.5rem)]">
               <span>Hey,</span>
               <span>there</span>
             </p>
 
-            {/* Portrait — white photo background multiplies into the glow */}
-            <div className="relative z-10 mt-4 w-[min(78vw,340px)] mix-blend-multiply lg:absolute lg:bottom-0 lg:left-1/2 lg:mt-0 lg:w-[clamp(400px,36vw,480px)] lg:-translate-x-1/2">
+            {/* Portrait */}
+            <div className="relative z-10 mt-4 w-[min(88vw,400px)] lg:absolute lg:bottom-0 lg:left-1/2 lg:mt-0 lg:w-[clamp(480px,42vw,560px)] lg:-translate-x-1/2">
               <Image
                 src={profile.photo}
                 alt={`Portrait of ${profile.name}`}
                 width={768}
                 height={768}
                 priority
-                className="h-auto w-full [mask-composite:intersect] [mask-image:linear-gradient(to_bottom,black_68%,transparent_98%),linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+                className="h-auto w-full"
               />
             </div>
 
@@ -104,13 +104,13 @@ export default function Home() {
 
             {/* I AM NAME */}
             <h1 className="relative z-20 mt-6 w-full text-center font-display uppercase leading-[0.86] tracking-tight text-indigo-950 lg:absolute lg:bottom-12 lg:left-6 lg:mt-0 lg:w-auto lg:text-left">
-              <span className="block text-[clamp(3.25rem,17vw,5.5rem)] lg:text-[clamp(5rem,8.5vw,8rem)]">I am</span>
-              <span className="block text-[clamp(3.25rem,17vw,5.5rem)] lg:text-[clamp(5rem,8.5vw,8rem)]">{profile.shortName}</span>
+              <span className="block text-[clamp(3.25rem,17vw,5.5rem)] lg:text-[clamp(4.5rem,7vw,6.5rem)]">I am</span>
+              <span className="block text-[clamp(3.25rem,17vw,5.5rem)] lg:text-[clamp(4.5rem,7vw,6.5rem)]">{profile.shortName}</span>
               <span className="sr-only"> — {profile.name}</span>
             </h1>
 
             {/* Headline */}
-            <p className="relative z-20 mt-4 text-center font-display text-[clamp(1.5rem,7vw,2.25rem)] uppercase leading-[0.95] text-indigo-600 lg:absolute lg:bottom-12 lg:right-6 lg:mt-0 lg:text-left lg:text-[clamp(2.25rem,3.6vw,3.25rem)]">
+            <p className="relative z-20 mt-4 text-center font-display text-[clamp(1.5rem,7vw,2.25rem)] uppercase leading-[0.95] text-indigo-600 lg:absolute lg:bottom-12 lg:right-6 lg:mt-0 lg:text-left lg:text-[clamp(2rem,3vw,2.75rem)]">
               {profile.headline.map((line) => (
                 <span key={line} className="block">
                   {line}
