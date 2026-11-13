@@ -67,8 +67,8 @@ export default function Home() {
               <Image
                 src={profile.photo}
                 alt={`Portrait of ${profile.name}`}
-                width={440}
-                height={431}
+                width={768}
+                height={768}
                 priority
                 className="h-auto w-full [mask-composite:intersect] [mask-image:linear-gradient(to_bottom,black_68%,transparent_98%),linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
               />

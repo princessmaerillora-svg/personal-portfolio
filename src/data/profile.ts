@@ -8,7 +8,7 @@ export const profile = {
   tagline: "Building clean, useful things for the web.",
   intro:
     "I'm an aspiring web developer who enjoys turning ideas into simple, responsive websites and applications. I'm always learning new tools and looking for chances to grow.",
-  photo: "/profile.png",
+  photo: "/profile.jpg",
   resumeUrl: "",
 };
 
