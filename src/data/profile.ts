@@ -1,59 +1,50 @@
-// ============================================================
-//  EDIT THIS FILE WITH YOUR OWN INFORMATION.
-//  Every section of the website reads from here, so you
-//  never need to touch the page code to change your content.
-//  Lines marked TODO are placeholders you must replace.
-// ============================================================
-
 export const profile = {
-  name: "Princess Mae Paras Rillora", // TODO
-  initials: "PR", // shown in the navbar circle
-  role: "BS Information Technology Student", // TODO
-  tagline: "Building clean, useful things for the web.", // TODO
+  name: "Princess Mae Paras Rillora",
+  initials: "PR",
+  role: "BS Information Technology Student",
+  tagline: "Building clean, useful things for the web.",
   intro:
-    "I'm an aspiring web developer who enjoys turning ideas into simple, responsive websites and applications. I'm always learning new tools and looking for chances to grow.", // TODO
-
-  // Put your photo in the /public folder (e.g. public/profile.jpg)
-  // and set this to "/profile.jpg". Leave "" to show your initials.
+    "I'm an aspiring web developer who enjoys turning ideas into simple, responsive websites and applications. I'm always learning new tools and looking for chances to grow.",
   photo: "/profile.png",
-
-  resumeUrl: "", // optional: e.g. "/resume.pdf" (place file in /public)
+  resumeUrl: "",
 };
 
 export const about = {
   paragraphs: [
-    "Hi! I'm a student from Bulacan, Philippines currently taking up BS Information Technology at La Consolacion University. I became interested in technology when my brother introduced me to his work as a developer.", // TODO
-    "Outside of coding, I enjoy reading and spending time with my pets. My goal is to become a web developer and contribute to projects that make a positive impact.", // TODO
+    "Hi! I'm a student from Bulacan, Philippines, currently taking up BS Information Technology at La Consolacion University Philippines. I became interested in technology when my brother introduced me to his work as a developer.",
+    "Outside of coding, I enjoy reading and spending time with my pets. My goal is to become a web developer and contribute to projects that make a positive impact.",
   ],
   education: [
     {
       level: "College",
-      school: "La Consolacion University", // TODO
-      program: "Bachelor of Science in Information Technology", // TODO
-      years: "2023 – 2027", // TODO
+      school: "La Consolacion University",
+      program: "Bachelor of Science in Information Technology",
+      years: "2023 – 2027",
     },
     {
       level: "Senior High School",
-      school: "St. John the Baptist Catholic School", // TODO
-      program: "STEM / ICT Strand", // TODO
-      years: "2021 – 2023", // TODO
+      school: "St. John the Baptist Catholic School",
+      program: "STEM / ICT Strand",
+      years: "2021 – 2023",
     },
     {
       level: "Junior High School",
-      school: "St. John the Baptist Catholic School", // TODO
-      years: "2017 – 2021", // TODO
+      school: "St. John the Baptist Catholic School",
+      program: "",
+      years: "2017 – 2021",
     },
   ],
 };
 
-// level: 1–5 (shown as a bar). Remove or add skills freely.
 export const skills = [
   {
     group: "Languages",
     items: [
-      { name: "HTML", level: 3 },
-      { name: "CSS", level: 4 },
-      { name: "JavaScript", level: 3 },
+      { name: "HTML", level: 4 },
+      { name: "CSS", level: 3 },
+      { name: "JavaScript", level: 2 },
+      { name: "C#", level: 3 },
+      { name: "Kotlin", level: 3 },
       { name: "PHP", level: 2 },
       { name: "SQL", level: 3 },
     ],
@@ -78,65 +69,55 @@ export const skills = [
 
 export const projects = [
   {
-    title: "Personal Portfolio Website", // this project!
+    title: "Personal Portfolio Website",
     description:
-      "A responsive portfolio built with Next.js and Tailwind CSS, deployed on Vercel.",
+      "A responsive portfolio website built with Next.js and Tailwind CSS and deployed on Vercel.",
     tags: ["Next.js", "Tailwind CSS", "Vercel"],
-    github: "https://github.com/princessmaerillora-svg/personal-portfolio.git", // TODO
-    demo: "", // TODO: paste your Vercel URL after deploying
+    github: "https://github.com/princessmaerillora-svg/personal-portfolio",
+    demo: "https://mypersonal-portfolio-topaz.vercel.app",
   },
   {
-    title: "Project Two", // TODO
+    title: "UBMS Maintenance and Reporting System",
     description:
-      "Short description of what the project does, who it's for, and what you built.", // TODO
-    tags: ["PHP", "MySQL"], // TODO
-    github: "", // TODO (optional)
-    demo: "",
+      "A web system for La Consolacion University that makes maintenance requests and issue reporting faster and easier for maintenance personnel, students and teachers.",
+    tags: ["Next.js", "GitHub", "Vercel", "PHP"],
+    github: "https://github.com/princessmaerillora-svg/ubms-lcup",
+    demo: "https://ubms-lcup.vercel.app",
   },
   {
-    title: "Project Three", // TODO
+    title: "Student Planner App",
     description:
-      "Could also be a school activity, hackathon, or org event you organized or joined.", // TODO
-    tags: ["HTML", "CSS", "JavaScript"], // TODO
+      "A simple school planner app that helps students organize their tasks and schedules, built with Kotlin and SQLite.",
+    tags: ["SQLite", "Kotlin", "Android Studio"],
     github: "",
     demo: "",
   },
 ];
 
-// type must be one of: "Certificate" | "Award" | "Seminar" | "Accomplishment"
 export const achievements = [
   {
     type: "Certificate",
-    title: "Certificate Name", // TODO
-    issuer: "Issuing Organization", // TODO
-    date: "2025", // TODO
+    title: "Microsoft Office Specialist",
+    issuer: "Microsoft",
+    date: "2025",
+  },
+  {
+    type: "Certificate",
+    title: "Foundational C# with Microsoft",
+    issuer: "Microsoft",
+    date: "2025",
   },
   {
     type: "Award",
-    title: "Dean's Lister / Award Name", // TODO
-    issuer: "Your University", // TODO
-    date: "2024", // TODO
-  },
-  {
-    type: "Seminar",
-    title: "Seminar / Webinar Title", // TODO
-    issuer: "Organizer", // TODO
-    date: "2024", // TODO
-  },
-  {
-    type: "Accomplishment",
-    title: "Something you're proud of", // TODO
-    issuer: "Context", // TODO
-    date: "2023", // TODO
+    title: "Dean's Lister",
+    issuer: "La Consolacion University Philippines",
+    date: "2024 and 2026",
   },
 ] as const;
 
 export const contact = {
-  email: "you@example.com", // TODO
-  phone: "", // optional, e.g. "+63 900 000 0000"
-  location: "City, Country", // TODO
-  links: [
-    { label: "GitHub", url: "https://github.com/YOUR-USERNAME" }, // TODO
-    { label: "LinkedIn", url: "https://linkedin.com/in/YOUR-NAME" }, // TODO
-  ],
+  email: "princessmaerillora@gmail.com",
+  phone: "+63 945 736 5628",
+  location: "Bulacan, Philippines",
+  links: [{ label: "GitHub", url: "https://github.com/princessmaerillora-svg" }],
 };

@@ -215,7 +215,7 @@ export default function Home() {
         {/* ACHIEVEMENTS */}
         <section id="achievements" className="bg-violet-100 py-20">
           <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <SectionTitle eyebrow="Achievements" title="Certificates, awards & seminars" />
+            <SectionTitle eyebrow="Achievements" title="Certificates & awards" />
             <div className="grid gap-4 sm:grid-cols-2">
               {achievements.map((a) => (
                 <div
