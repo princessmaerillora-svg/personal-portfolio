@@ -42,6 +42,33 @@ function Dots({ level }: { level: number }) {
   );
 }
 
+const quickFacts = [
+  {
+    question: "What are you studying?",
+    answer: "I'm pursuing a BS in Information Technology at La Consolacion University Philippines, with an expected graduation in 2027.",
+  },
+  {
+    question: "What kind of work interests you?",
+    answer: "I'm working toward becoming a web developer and enjoy building clear, responsive websites and useful applications.",
+  },
+  {
+    question: "What tools do you use?",
+    answer: "I work with HTML, CSS, JavaScript, Next.js, Tailwind CSS, C#, Kotlin, PHP, SQL, and Git.",
+  },
+  {
+    question: "Are you open to opportunities?",
+    answer: "Yes. I'm currently open to internships where I can contribute, learn from a team, and grow as a developer.",
+  },
+  {
+    question: "What have you built?",
+    answer: "My projects include this portfolio, a university maintenance and reporting system, and a student planner app.",
+  },
+  {
+    question: "What's the best way to reach me?",
+    answer: "Send me an email. I'm happy to talk about internships, collaborations, or projects.",
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -242,12 +269,32 @@ export default function Home() {
           </div>
         </section>
 
+        {/* QUICK FACTS */}
+        <section id="quick-facts" className="bg-white py-24">
+          <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 md:grid-cols-[0.8fr_2fr] md:gap-16">
+            <h2 className="max-w-sm font-display text-[clamp(3.5rem,10vw,7rem)] uppercase leading-[0.82] tracking-tight text-indigo-950">
+              Before you ask...
+            </h2>
+            <ol className="grid gap-x-10 gap-y-10 md:grid-cols-2">
+              {quickFacts.map((fact, i) => (
+                <li key={fact.question} className="border-t border-indigo-950/20 pt-4">
+                  <span className="font-mono text-xs text-indigo-700">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-2 font-display text-[clamp(1.35rem,2.4vw,1.8rem)] uppercase leading-[0.95] text-indigo-950">
+                    {fact.question}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-indigo-950/75">{fact.answer}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
         {/* CONTACT */}
         <section id="contact" className="bg-indigo-950 py-24 text-white">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="flex items-baseline justify-between border-b border-white/20 pb-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-300">Contact me</p>
-              <span className="font-mono text-sm text-white/50">(05)</span>
+              <span className="font-mono text-sm text-white/50">(06)</span>
             </div>
 
             <p className="mt-12 font-serif text-[clamp(2.5rem,7vw,5rem)] italic leading-none text-indigo-200">
