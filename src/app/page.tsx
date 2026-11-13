@@ -44,28 +44,28 @@ function Dots({ level }: { level: number }) {
 
 const quickFacts = [
   {
-    question: "What are you studying?",
-    answer: "I'm pursuing a BS in Information Technology at La Consolacion University Philippines, with an expected graduation in 2027.",
+    question: "What kind of opportunities are you looking for?",
+    answer: "I'm looking for internship opportunities, student developer roles, and small project collaborations where I can contribute, learn, and grow with a team.",
   },
   {
-    question: "What kind of work interests you?",
-    answer: "I'm working toward becoming a web developer and enjoy building clear, responsive websites and useful applications.",
+    question: "When can you start?",
+    answer: "I can begin as soon as the schedule allows, and I’m open to discussing start dates based on the role, school calendar, and team needs.",
   },
   {
-    question: "What tools do you use?",
-    answer: "I work with HTML, CSS, JavaScript, Next.js, Tailwind CSS, C#, Kotlin, PHP, SQL, and Git.",
+    question: "Are you open to remote or onsite work?",
+    answer: "Yes. I’m open to remote, onsite, or hybrid arrangements depending on the opportunity and what works best for the organization.",
   },
   {
-    question: "Are you open to opportunities?",
-    answer: "Yes. I'm currently open to internships where I can contribute, learn from a team, and grow as a developer.",
+    question: "What can you contribute to a team?",
+    answer: "I can support front-end development, UI implementation, project tasks, and collaborative work using modern web tools, while continuing to learn from experienced teammates.",
   },
   {
-    question: "What have you built?",
-    answer: "My projects include this portfolio, a university maintenance and reporting system, and a student planner app.",
+    question: "How does school affect your availability?",
+    answer: "I’m currently a student, so I’m available for roles and projects that fit around my academic schedule while still allowing me to contribute consistently.",
   },
   {
-    question: "What's the best way to reach me?",
-    answer: "Send me an email. I'm happy to talk about internships, collaborations, or projects.",
+    question: "How should an organization get in touch?",
+    answer: "You can reach me by email to discuss internships, collaborations, or project opportunities. I’m happy to share more details about my work and availability.",
   },
 ];
 
