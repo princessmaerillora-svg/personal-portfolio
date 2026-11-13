@@ -1,7 +1,10 @@
 export const profile = {
   name: "Princess Mae Paras Rillora",
+  shortName: "Princess",
   initials: "PR",
   role: "BS Information Technology Student",
+  headline: ["Information", "Technology", "Student"],
+  availability: "Open to internships",
   tagline: "Building clean, useful things for the web.",
   intro:
     "I'm an aspiring web developer who enjoys turning ideas into simple, responsive websites and applications. I'm always learning new tools and looking for chances to grow.",

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
+import { arrowClass, btn } from "@/components/button";
 import {
   profile,
   about,
@@ -9,123 +10,145 @@ import {
   contact,
 } from "@/data/profile";
 
-const badgeColors: Record<string, string> = {
-  Certificate: "bg-violet-100 text-violet-700",
-  Award: "bg-fuchsia-100 text-fuchsia-700",
-  Seminar: "bg-indigo-100 text-indigo-700",
-  Accomplishment: "bg-purple-100 text-purple-700",
-};
-
-function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
+function Arrow() {
   return (
-    <div className="mb-10">
-      <p className="text-sm font-semibold uppercase tracking-widest text-violet-600">
-        {eyebrow}
-      </p>
-      <h2 className="mt-2 text-3xl font-bold text-violet-950 sm:text-4xl">
+    <svg className={arrowClass} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 11L11 5M6 5h5v5" />
+    </svg>
+  );
+}
+
+function SectionHead({ index, title, note }: { index: string; title: string; note?: string }) {
+  return (
+    <div className="mb-12 flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-b border-indigo-950 pb-4">
+      <h2 className="font-display text-[clamp(2.75rem,7vw,5rem)] uppercase leading-[0.9] tracking-tight text-indigo-950">
         {title}
       </h2>
+      <p className="flex items-baseline gap-3 pb-1 text-sm text-indigo-950/60">
+        {note && <span className="font-serif text-lg italic text-indigo-950/70">{note}</span>}
+        <span className="font-mono">({index})</span>
+      </p>
     </div>
   );
 }
 
-export default function Home() {
+function Dots({ level }: { level: number }) {
+  return (
+    <span className="flex gap-1" aria-label={`${level} out of 5`} role="img">
+      {[1, 2, 3, 4, 5].map((n) => (
+        <span key={n} className={`h-2 w-2 ${n <= level ? "bg-indigo-600" : "bg-indigo-100"}`} />
+      ))}
+    </span>
+  );
+}
 
+export default function Home() {
   return (
     <>
-      <Navbar initials={profile.initials} />
+      <Navbar name={profile.shortName} />
 
       <main className="flex-1">
         {/* HOME */}
-        <section
-          id="home"
-          className="relative overflow-hidden bg-gradient-to-br from-violet-950 via-purple-900 to-violet-800 pt-16 text-white"
-        >
-          <div className="mx-auto flex max-w-5xl flex-col-reverse items-center gap-10 px-4 py-20 sm:px-6 md:flex-row md:py-28">
-            <div className="flex-1 text-center md:text-left">
-              <p className="font-medium text-violet-300">Hello, I&apos;m</p>
-              <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-                {profile.name}
-              </h1>
-              <p className="mt-3 text-lg font-semibold text-fuchsia-300">
-                {profile.role}
-              </p>
-              <p className="mt-4 text-xl italic text-violet-100">
-                &ldquo;{profile.tagline}&rdquo;
-              </p>
-              <p className="mx-auto mt-5 max-w-xl leading-relaxed text-violet-200 md:mx-0">
-                {profile.intro}
-              </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
-                <a
-                  href="#projects"
-                  className="rounded-full bg-white px-6 py-3 font-semibold text-violet-800 shadow-lg shadow-violet-950/40 transition hover:bg-violet-100"
-                >
+        <section id="home" className="relative isolate overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_45%_55%_at_50%_45%,var(--color-indigo-100)_0%,var(--color-indigo-50)_45%,transparent_75%),radial-gradient(ellipse_30%_35%_at_8%_70%,var(--color-indigo-50),transparent_70%)]"
+          />
+
+          <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 pb-14 pt-10 sm:px-6 lg:block lg:h-[clamp(640px,calc(100svh-4rem),760px)] lg:p-0">
+            {/* Hey, there */}
+            <p className="relative z-20 flex gap-3 font-serif text-[clamp(3.5rem,15vw,5rem)] italic leading-none text-indigo-950 lg:absolute lg:inset-x-0 lg:top-[20%] lg:justify-center lg:gap-[clamp(13rem,20vw,17rem)] lg:text-[clamp(6rem,10vw,9.5rem)]">
+              <span>Hey,</span>
+              <span>there</span>
+            </p>
+
+            {/* Portrait — white photo background multiplies into the glow */}
+            <div className="relative z-10 mt-4 w-[min(78vw,340px)] mix-blend-multiply lg:absolute lg:bottom-0 lg:left-1/2 lg:mt-0 lg:w-[clamp(400px,36vw,480px)] lg:-translate-x-1/2">
+              <Image
+                src={profile.photo}
+                alt={`Portrait of ${profile.name}`}
+                width={440}
+                height={431}
+                priority
+                className="h-auto w-full [mask-composite:intersect] [mask-image:linear-gradient(to_bottom,black_68%,transparent_98%),linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+              />
+            </div>
+
+            {/* Availability */}
+            <p className="relative z-20 order-first mb-6 inline-flex items-center gap-2.5 rounded-full border border-indigo-950/10 bg-white py-2 pl-3 pr-4 text-sm font-medium text-indigo-950 lg:absolute lg:left-6 lg:top-[50%] lg:order-none lg:mb-0">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inset-0 animate-ping rounded-full bg-indigo-500/60 motion-reduce:hidden" />
+                <span className="relative h-2.5 w-2.5 rounded-full bg-indigo-600" />
+              </span>
+              {profile.availability}
+            </p>
+
+            {/* Intro + actions */}
+            <div className="relative z-20 order-last mt-8 w-full max-w-md text-center lg:absolute lg:right-6 lg:top-[42%] lg:order-none lg:mt-0 lg:w-[17rem] lg:text-left">
+              <p className="text-[0.95rem] leading-relaxed text-indigo-950/75 lg:text-sm">{profile.intro}</p>
+              <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center lg:justify-start">
+                <a href="#projects" className={btn("solid")}>
                   View my work
                 </a>
-                <a
-                  href="#contact"
-                  className="rounded-full border-2 border-violet-300 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
-                >
-                  Contact me
-                </a>
-                {profile.resumeUrl && (
-                  <a
-                    href={profile.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full px-6 py-3 font-semibold text-violet-200 underline-offset-4 hover:underline"
-                  >
-                    Résumé ↗
+                {profile.resumeUrl ? (
+                  <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer" className={btn("outline")}>
+                    Résumé <Arrow />
+                  </a>
+                ) : (
+                  <a href="#contact" className={btn("outline")}>
+                    Contact me
                   </a>
                 )}
               </div>
             </div>
 
-            <div className="shrink-0">
-              {profile.photo ? (
-                <Image
-                  src={profile.photo}
-                  alt={`Photo of ${profile.name}`}
-                  width={280}
-                  height={280}
-                  priority
-                  className="h-56 w-56 rounded-full object-cover ring-8 ring-violet-400/40 sm:h-72 sm:w-72"
-                />
-              ) : (
-                <div className="grid h-56 w-56 place-items-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 text-6xl font-bold text-white ring-8 ring-violet-400/40 sm:h-72 sm:w-72">
-                  {profile.initials}
-                </div>
-              )}
-            </div>
+            {/* I AM NAME */}
+            <h1 className="relative z-20 mt-6 w-full text-center font-display uppercase leading-[0.86] tracking-tight text-indigo-950 lg:absolute lg:bottom-12 lg:left-6 lg:mt-0 lg:w-auto lg:text-left">
+              <span className="block text-[clamp(3.25rem,17vw,5.5rem)] lg:text-[clamp(5rem,8.5vw,8rem)]">I am</span>
+              <span className="block text-[clamp(3.25rem,17vw,5.5rem)] lg:text-[clamp(5rem,8.5vw,8rem)]">{profile.shortName}</span>
+              <span className="sr-only"> — {profile.name}</span>
+            </h1>
+
+            {/* Headline */}
+            <p className="relative z-20 mt-4 text-center font-display text-[clamp(1.5rem,7vw,2.25rem)] uppercase leading-[0.95] text-indigo-600 lg:absolute lg:bottom-12 lg:right-6 lg:mt-0 lg:text-left lg:text-[clamp(2.25rem,3.6vw,3.25rem)]">
+              {profile.headline.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </p>
           </div>
         </section>
 
         {/* ABOUT */}
-        <section id="about" className="bg-violet-50 py-20">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <SectionTitle eyebrow="About Me" title="Who I am" />
-            <div className="grid gap-12 md:grid-cols-2">
-              <div className="space-y-4 leading-relaxed text-violet-900/75">
-                {about.paragraphs.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
+        <section id="about" className="py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <SectionHead index="01" title="About me" note="who I am" />
+            <div className="grid gap-14 md:grid-cols-[1.1fr_1fr]">
               <div>
-                <h3 className="mb-6 text-lg font-bold text-violet-950">
-                  Educational Background
+                <p className="font-serif text-[clamp(2rem,4vw,2.75rem)] italic leading-[1.1] text-indigo-950">
+                  {profile.tagline}
+                </p>
+                <div className="mt-8 space-y-4 leading-relaxed text-indigo-950/75">
+                  {about.paragraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">
+                  Education
                 </h3>
-                <ol className="relative space-y-6 border-l-2 border-violet-200 pl-6">
+                <ol className="border-t border-indigo-950/15">
                   {about.education.map((e) => (
-                    <li key={e.level} className="relative">
-                      <span className="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white bg-violet-600 ring-2 ring-violet-200" />
-                      <p className="text-xs font-semibold uppercase tracking-wide text-violet-600">
-                        {e.level} · {e.years}
-                      </p>
-                      <p className="mt-1 font-semibold text-violet-950">{e.school}</p>
-                      {e.program && (
-                        <p className="text-sm text-violet-900/75">{e.program}</p>
-                      )}
+                    <li key={e.level} className="grid grid-cols-[6.5rem_1fr] gap-4 border-b border-indigo-950/15 py-5">
+                      <span className="font-mono text-xs leading-6 text-indigo-950/60">{e.years}</span>
+                      <div>
+                        <p className="text-xs uppercase tracking-wider text-indigo-950/60">{e.level}</p>
+                        <p className="mt-1 font-semibold text-indigo-950">{e.school}</p>
+                        {e.program && <p className="text-sm text-indigo-950/70">{e.program}</p>}
+                      </div>
                     </li>
                   ))}
                 </ol>
@@ -135,29 +158,18 @@ export default function Home() {
         </section>
 
         {/* SKILLS */}
-        <section id="skills" className="bg-violet-100 py-20">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <SectionTitle eyebrow="Skills" title="What I work with" />
-            <div className="grid gap-6 md:grid-cols-3">
+        <section id="skills" className="bg-indigo-50/60 py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <SectionHead index="02" title="Skills" note="what I work with" />
+            <div className="grid gap-12 md:grid-cols-3 md:gap-10">
               {skills.map((g) => (
-                <div
-                  key={g.group}
-                  className="rounded-2xl border border-violet-200 bg-white p-6 shadow-sm"
-                >
-                  <h3 className="mb-5 font-bold text-violet-700">{g.group}</h3>
-                  <ul className="space-y-4">
+                <div key={g.group}>
+                  <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">{g.group}</h3>
+                  <ul className="border-t border-indigo-950/15">
                     {g.items.map((s) => (
-                      <li key={s.name}>
-                        <div className="mb-1 flex justify-between text-sm">
-                          <span className="font-medium text-violet-950">{s.name}</span>
-                          <span className="text-violet-500">{s.level}/5</span>
-                        </div>
-                        <div className="h-2 rounded-full bg-violet-100">
-                          <div
-                            className="h-2 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500"
-                            style={{ width: `${s.level * 20}%` }}
-                          />
-                        </div>
+                      <li key={s.name} className="flex items-center justify-between gap-4 border-b border-indigo-950/15 py-3">
+                        <span className="font-medium text-indigo-950">{s.name}</span>
+                        <Dots level={s.level} />
                       </li>
                     ))}
                   </ul>
@@ -168,117 +180,133 @@ export default function Home() {
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" className="bg-violet-50 py-20">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <SectionTitle eyebrow="Projects" title="Things I've built" />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {projects.map((p) => (
-                <article
+        <section id="projects" className="py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <SectionHead index="03" title="Projects" note="things I've built" />
+            <ol>
+              {projects.map((p, i) => (
+                <li
                   key={p.title}
-                  className="flex flex-col rounded-2xl border border-violet-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-violet-100"
+                  className="grid gap-4 border-b border-indigo-950/15 py-8 first:pt-0 md:grid-cols-[4rem_1fr_auto] md:items-start md:gap-8"
                 >
-                  <div className="mb-4 h-1.5 w-12 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500" />
-                  <h3 className="text-lg font-bold text-violet-950">{p.title}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-violet-900/75">
-                    {p.description}
-                  </p>
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {p.tags.map((t) => (
-                      <li
-                        key={t}
-                        className="rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-800"
-                      >
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
+                  <span className="font-mono text-sm text-indigo-600">{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3 className="font-display text-[clamp(1.75rem,3.5vw,2.5rem)] uppercase leading-none text-indigo-950">
+                      {p.title}
+                    </h3>
+                    <p className="mt-3 max-w-2xl leading-relaxed text-indigo-950/75">{p.description}</p>
+                    <p className="mt-4 text-xs uppercase tracking-[0.15em] text-indigo-950/55">
+                      {p.tags.join("  /  ")}
+                    </p>
+                  </div>
                   {(p.github || p.demo) && (
-                    <div className="mt-5 flex gap-4 text-sm font-semibold">
-                      {p.github && (
-                        <a href={p.github} target="_blank" rel="noopener noreferrer" className="text-violet-700 hover:underline">
-                          Code ↗
+                    <div className="flex flex-wrap gap-2 md:justify-end">
+                      {p.demo && (
+                        <a href={p.demo} target="_blank" rel="noopener noreferrer" className={btn("solid")}>
+                          Live site <Arrow />
                         </a>
                       )}
-                      {p.demo && (
-                        <a href={p.demo} target="_blank" rel="noopener noreferrer" className="text-violet-700 hover:underline">
-                          Live demo ↗
+                      {p.github && (
+                        <a href={p.github} target="_blank" rel="noopener noreferrer" className={btn("outline")}>
+                          Code <Arrow />
                         </a>
                       )}
                     </div>
                   )}
-                </article>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </section>
 
         {/* ACHIEVEMENTS */}
-        <section id="achievements" className="bg-violet-100 py-20">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6">
-            <SectionTitle eyebrow="Achievements" title="Certificates & awards" />
-            <div className="grid gap-4 sm:grid-cols-2">
+        <section id="achievements" className="bg-indigo-50/60 py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <SectionHead index="04" title="Achievements" note="certificates & awards" />
+            <ul className="border-t border-indigo-950/15">
               {achievements.map((a) => (
-                <div
+                <li
                   key={a.title}
-                  className="flex items-start gap-4 rounded-2xl border border-violet-200 bg-white p-5 shadow-sm"
+                  className="grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-2 border-b border-indigo-950/15 py-6 sm:grid-cols-[7rem_1fr_auto]"
                 >
-                  <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${badgeColors[a.type]}`}>
+                  <span className="col-span-2 font-mono text-sm text-indigo-950/60 sm:col-span-1">{a.date}</span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-indigo-950">{a.title}</h3>
+                    <p className="text-sm text-indigo-950/65">{a.issuer}</p>
+                  </div>
+                  <span
+                    className={`justify-self-end rounded-full px-3 py-1 text-xs font-medium uppercase tracking-wider ${
+                      a.type === "Award" ? "bg-indigo-600 text-white" : "border border-indigo-600/40 text-indigo-700"
+                    }`}
+                  >
                     {a.type}
                   </span>
-                  <div>
-                    <h3 className="font-bold text-violet-950">{a.title}</h3>
-                    <p className="text-sm text-violet-900/75">
-                      {a.issuer} · {a.date}
-                    </p>
-                  </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
         {/* CONTACT */}
-        <section id="contact" className="bg-gradient-to-br from-violet-700 to-fuchsia-700 py-20 text-white">
-          <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-            <p className="text-sm font-semibold uppercase tracking-widest text-violet-200">
-              Contact Me
+        <section id="contact" className="bg-indigo-950 py-24 text-white">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="flex items-baseline justify-between border-b border-white/20 pb-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-300">Contact me</p>
+              <span className="font-mono text-sm text-white/50">(05)</span>
+            </div>
+
+            <p className="mt-12 font-serif text-[clamp(2.5rem,7vw,5rem)] italic leading-none text-indigo-200">
+              Let&apos;s work
             </p>
-            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Let&apos;s work together</h2>
-            <p className="mx-auto mt-4 max-w-xl text-violet-100">
-              I&apos;m open to internships, collaborations, and freelance work.
-              Feel free to reach out!
+            <h2 className="font-display text-[clamp(3.5rem,13vw,10rem)] uppercase leading-[0.85] tracking-tight">
+              Together
+            </h2>
+            <p className="mt-6 max-w-lg text-indigo-100/80">
+              I&apos;m open to internships, collaborations, and freelance work. Feel free to reach out.
             </p>
-            <a
-              href={`mailto:${contact.email}`}
-              className="mt-8 inline-block rounded-full bg-white px-8 py-3 font-semibold text-violet-700 shadow-lg transition hover:bg-violet-50"
-            >
-              {contact.email}
-            </a>
-            <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-violet-100">
-              {contact.phone && (
-                <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="hover:text-white">
-                  📞 {contact.phone}
-                </a>
-              )}
-              <span>📍 {contact.location}</span>
+
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <a href={`mailto:${contact.email}`} className={btn("light", "sm:w-auto")}>
+                {contact.email}
+              </a>
               {contact.links.map((l) => (
-                <a
-                  key={l.label}
-                  href={l.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium underline-offset-4 hover:text-white hover:underline"
-                >
-                  {l.label} ↗
+                <a key={l.label} href={l.url} target="_blank" rel="noopener noreferrer" className={btn("light-outline")}>
+                  {l.label} <Arrow />
                 </a>
               ))}
             </div>
+
+            <dl className="mt-14 grid gap-6 border-t border-white/20 pt-6 text-sm sm:grid-cols-3">
+              {contact.phone && (
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.2em] text-indigo-300">Phone</dt>
+                  <dd className="mt-1">
+                    <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="underline-offset-4 hover:underline">
+                      {contact.phone}
+                    </a>
+                  </dd>
+                </div>
+              )}
+              <div>
+                <dt className="text-xs uppercase tracking-[0.2em] text-indigo-300">Based in</dt>
+                <dd className="mt-1">{contact.location}</dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-[0.2em] text-indigo-300">Status</dt>
+                <dd className="mt-1">{profile.availability}</dd>
+              </div>
+            </dl>
           </div>
         </section>
       </main>
 
-      <footer className="bg-violet-950 py-6 text-center text-sm text-violet-300">
-        © 2026 {profile.name}. Built with Next.js & deployed on Vercel.
+      <footer className="bg-indigo-950 text-sm text-indigo-200/70">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 border-t border-white/10 px-4 py-6 sm:px-6">
+          <p>© 2026 {profile.name}</p>
+          <a href="#home" className="rounded-full px-3 py-2 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-white">
+            Back to top ↑
+          </a>
+        </div>
       </footer>
     </>
   );

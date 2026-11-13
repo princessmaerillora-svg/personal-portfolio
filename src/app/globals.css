@@ -3,23 +3,31 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
+  --font-display: var(--font-anton);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-/* keep section headings from hiding under the fixed navbar */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* keep section headings from hiding under the sticky navbar */
 section[id] {
   scroll-margin-top: 4rem;
 }
 
 body {
-  background: #f5f3ff;
-  color: #2e1065;
+  background: #ffffff;
+  color: #1e1b4b; /* indigo-950 */
 }
 
 ::selection {
-  background: #ddd6fe;
-  color: #4c1d95;
+  background: #c7d2fe; /* indigo-200 */
+  color: #1e1b4b;
 }
