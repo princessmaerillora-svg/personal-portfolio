@@ -7,6 +7,7 @@
 
 export const profile = {
   name: "Princess Mae Paras Rillora", // TODO
+  initials: "PR", // shown in the navbar circle
   role: "BS Information Technology Student", // TODO
   tagline: "Building clean, useful things for the web.", // TODO
   intro:
@@ -16,6 +17,7 @@ export const profile = {
   // and set this to "/profile.jpg". Leave "" to show your initials.
   photo: "/profile.png",
 
+  resumeUrl: "", // optional: e.g. "/resume.pdf" (place file in /public)
 };
 
 export const about = {
